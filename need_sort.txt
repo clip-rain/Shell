@@ -1,0 +1,17 @@
+Business	 Business	 J2XOWA1 J
+Business	 Business	 CXOWJA  C
+Economy With Restrictions	Economy GNA2ACES	 G
+Economy With Restrictions	Economy Flexible	 UNA0ACEY	 U
+Economy With Restrictions	Economy YFE0IKNY	 Y
+Economy With Restrictions	Basic Economy   SL400LGT	 S
+Business	 Business	 JFFDEOWW	 J
+Economy Premium Premium Economy OFFGB2OW	 O
+Economy With Restrictions	Economy Flexible	 Y2XOWA1 Y
+Economy With Restrictions	Economy YFFDEOWW	 Y
+Economy Premium Premium Economy ANY00ENC	 A
+Business	 Business	 ZNY00ENC	 Z
+Economy Premium Premium Economy OOWJA   O
+Business	 Business	 JFFGBOWW	 J
+First   First   PNA7ACEN	 P
+Business	 Business	 CWOWJA  C
+Economy Premium Premium Economy OFFEU3OW	 O

@@ -1,0 +1,197 @@
+Shell
+
+重点：
+1. Shell 和 Shell脚本是两回事。不过我们平时所说的Shell都是指Shell脚本。
+2. Shell 脚本文件的后缀名是很随意的，扩展名并不影响脚本的运行。不过为了规范，请使用sh，表示shell
+3. 平时所说的bash，sh，csh都是Shell的环境。
+4. 脚本运行有两种方式。一种是通过命令调用解释器，并把脚本文件作为解释器参数来运行；另外一种是直接运行脚本文件。
+5. 脚本文件的开头一般会有 #!/bin/bash 等来告知系统使用何种解释器来运行该脚本。（#！读作 shebang）
+例如：> echo ‘echo good morning’ > start.sh 
+        > chmod +x start.sh (注：这里一般要给新加的文件赋执行权)
+        > ./start.sh
+        > sh start.sh
+        > bash start.sh
+        > cp start.sh start.gg
+        > chmod +x start.gg
+        > ./start.gg
+
+
+Shell变量
+
+定义变量：
+定义变量的时候等号左右两边不能有空格。变量名只能包含英文字母、数字和下划线。但不能以数字开头。在引用变量的时候需要用花括号把变量名字包围起来。例如${var}. 需要注意的是花括号是用来区分变量的边界，所以大多数情况是可以省略的。
+
+只读变量：
+使用readonly命令将变量定义为只读变量，这样的变量之后都不能更改。
+
+删除变量：
+使用unset var 即可删除变量。
+
+字符串
+单引号和双引号的区别：单引号不会解析引号内的变量，
+S=“leiyu”
+echo ‘hello, ‘$S’!’  ‘Hello, ${S}!’
+echo “hello, “$S”” “Hello, ${S}”   
+#这里有点问题，就是如果双引号之中也有感叹号的话，执行的时候会报错，不知为何，所以这里先把感叹号去掉
+输出结果便可知但引号中变量不能直接引用，必须用另一对单引号包括起来。
+hello leiyu! Hello ${S}!
+hello leiyu Hello leiyu
+
+获取字符串的长度
+echo ${#S}
+
+截取字符串
+echo ${S:1:3} 格式是 ${var:start_index:length}
+
+数组
+定义 array_name=(a b c d) 特别注意各个元素之间使用空格隔开的。
+${array_name[index]}
+${array_name[@]} ${array_name[*]} 表示数组中所有的元素
+
+运算符
+算术运算符 + - * /
+关系运算符 -eq -ne -lt - gt -ge -le
+布尔运算符 -o -a !
+逻辑运算符 || &&
+字符串运算符 = != -z -n $
+文件测试运算符 -a -b -c …
+
+echo命令
+Echo用于输出字符串
+- 单引号原样输出。
+- 反引号显示命令执行结果。注意是反引号，不是单引号。
+- 双引号显示解析结果。
+
+
+read命令
+用于读取标准输入，格式为 read var. 类似于std.in
+
+printf命令
+也是用于展示字符串，不过该命令更丰富。
+%s string 
+%c char
+%f float
+%b 可以转移的字符串
+%d decimal 
+另外有一个种写法 %-10s或者%-4.5f可以来限制字符串或者数字的位数。
+e.g.
+sh-3.2$ a=(9 9 4 3 2 2 3 1 2 40)
+sh-3.2$ printf "%s %s %s\n" ${a[*]}
+9 9 4
+3 2 2
+3 1 2
+40
+
+
+读取文件入参
+$n 其中$0为执行的文件名字。$1-$n为具体的参数
+$# 参数个数
+$*  以一个字符串表示所有的参数
+$@ 以一个数组表示所有的参数
+
+数组
+${array[*]} 和 ${array[@]}效果一样，都是表示整个数组。
+${#array[*]} 和 ${#array[@]} 都可以计算数组的长度。${#array}不是表示数组的长度。
+
+test命令
+测试运算符计算的结果。感觉没有什么存在的必要，教程中的示例不要test命令也可以完成。
+例如
+num1=$[2*3]
+num2=$[1+5]
+if test $[num1] -eq $[num2] 这里也可写出 if [ $num1 -eq $num2 ]
+then
+    echo '两个数字相等!'
+else
+    echo '两个数字不相等!'
+fi
+
+
+
+需要会用的命令：（没事回顾一下）
+wc            compute the number of lines, words and bytes contained in each input file or standard input. And display the result to standard output.
+awk          pattern-directed scanning and processing language（输入必须是一个流，比如文件，或者输入流）
+seq           print sequences of numbers
+ping          send ICMP ECHO_REQUEST packets to network hosts.
+export       Shell build-in command 
+mail           send and receive email
+diff             compare file line by line.
+md5           The digest functions output the message digest of a supplied file or files in hexadecimal.
+find            walk a file hierarchy to find something you want.
+sed             stream editor
+grep            text search tool 
+eval              It concatenates its arguments into  a single string, joining  the arguments with spaces, then executes that string as a bash command.
+expr             used for basic operation like addition, subtraction etc. also used for evaluating expressions like string operation.
+source.         Load any functions file into the current shell or a command prompt.
+kill                 terminate or signal a process
+nl		      line numbering filter 
+
+其中grep, sed, awk为linux文本处理三剑客。
+
+
+
+Tips
+1. * 在作为乘法符号的时候，需要在*前加转义字符\
+2. [[  xx =~ ^parttern$ ]] 这是正则表达式
+3.  $() 和 `` 的作用是一样的。例如c=`echo lei` 和 c=$(echo lei) 都是将c赋值为lei。
+4. echo 会trim掉字符串变量中的首尾空格，中间连续空格会合并成一个。
+5. IFS https://bash.cyberciti.biz/guide/$IFS
+6. while < file  or while <<< string
+
+
+little topic
+1. 读取包含某个词的一行(该词是出现在每行的第一个词。用‘:‘和其他内容分开)，内容和行号（提示： awk，或者read）
+2. 给每行加上行号，并打印第2-6行。
+3. 统计某个目录及其所有目录下的文件的大小，并打印出来。
+4. 简单的计算器，可以计算加减乘除
+
+
+流程控制
+If
+then
+	command1
+	command2 
+elif
+then
+	command3
+else
+	command4
+fi
+
+
+for var in list
+do 
+	command1
+	command2
+done
+
+
+while condition
+do
+ 	command1
+	command2
+done
+
+
+until condition
+do
+	command1
+	command2
+done
+
+break 和 continue 都可以用于上述流程控制中。 
+
+case 值 in
+模式1)
+    command1
+    command2
+    ...
+    commandN
+    ;;
+模式2）
+    command1
+    command2
+    ...
+    commandN
+    ;;
+esac
+
