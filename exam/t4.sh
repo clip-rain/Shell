@@ -10,6 +10,7 @@ case $c in
 ;;
 -) echo `expr $a - $b`
 ;;
+# expr 使用*作乘号的时候需要转义。
 \*) echo `expr $a \* $b`
 ;;
 /) echo $[$a/$b]
